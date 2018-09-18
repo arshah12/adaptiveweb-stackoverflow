@@ -1,0 +1,60 @@
+<html>
+<head>
+    <title>Home page</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
+    <script src="/javascripts/homescript.js"></script>
+</head>
+<body>
+<h1> Welcome, <%= name %> </h1>
+
+<p>
+    <a href="https://stackoverflow.com/questions/tagged/java?sort=frequent&pageSize=15" target="_blank">Go to StackOverflow</a>
+</p>
+
+<p>
+<table id="eventdata" style="width:700px">
+    <tr>
+        <th>Event</th>
+        <th>Count</th>
+        <th>Time (latest capture)</th>
+    </tr>
+    <tr>
+        <td>Vote activity</td>
+        <td id="voteEventCount"></td>
+        <td id="voteEventTime"></td>
+    </tr>
+    <tr>
+        <td>Question activity</td>
+        <td id="questionEventCount"></td>
+        <td id="questionEventTime"></td>
+    </tr>
+    <tr>
+        <td>Search activity</td>
+        <td id="searchEventCount"></td>
+        <td id="searchEventTime"></td>
+    </tr>
+    <tr>
+        <td>Ask activity</td>
+        <td id="askQuestionEventCount"></td>
+        <td id="askQuestionEventTime"></td>
+    </tr>
+    <tr>
+        <td>Tag activity</td>
+        <td id="tagEventCount"></td>
+        <td id="tagEventTime"></td>
+    </tr>
+</table>
+</p>
+
+<form action="logout" method="post">
+    <input name="Submit" value="Logout" type="submit">
+</form>
+
+</body>
+</html>

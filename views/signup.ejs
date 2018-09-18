@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>Sign up page</title>
+</head>
+<body>
+<h1>Sign up page</h1>
+<br/>
+<form action="createUser" method="post">
+    <table width="75%">
+        <tbody>
+        <tr>
+            <td width="48%">Enter new username</td>
+            <td width="52%">
+                <input name="name" type="text"> <%= error %>
+            </td>
+        </tr>
+        <tr>
+            <td width="48%">Enter new password</td>
+            <td width="52%">
+                <input name="pwd" type="text">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <input name="Submit" value="Create User" type="submit">
+        <input name="Reset" value="Reset form" type="reset">
+    </p>
+</form>
+</body>
+</html>
