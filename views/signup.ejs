@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>Sign up page</title>
+    <style>
+        body { background: #fff}
+        * {font-family: Verdana, Arial, sans-serif; }
+    </style>
 </head>
 <body>
 <h1>Sign up page</h1>
@@ -18,7 +22,7 @@
         <tr>
             <td width="48%">Enter new password</td>
             <td width="52%">
-                <input name="pwd" type="text">
+                <input name="pwd" type="password">
             </td>
         </tr>
         </tbody>
@@ -27,6 +31,9 @@
         <input name="Submit" value="Create User" type="submit">
         <input name="Reset" value="Reset form" type="reset">
     </p>
+</form>
+<form action="login" method="get">
+    <input name="Submit" value="Login" type="submit">
 </form>
 </body>
 </html>

@@ -37,7 +37,9 @@ MongoClient.connect('mongodb://arshah12:mongodb123@ds151602.mlab.com:51602/adapt
     function (error, client) {
         if (error) return console.log(error);
         db = client.db('adaptive-web-db');
-        app.listen(8080);
+        app.listen(8080, function () {
+            console.log('Server Started on Port 8080')
+        });
     });
 
 app.use(function (req, res, next) {
@@ -57,10 +59,8 @@ app.get('/signup', function (req, res) {
 
 
 app.post('/createUser', function (req, res) {
-    console.log(req.body);
     db.collection('userInfo', function (err, collection) {
         collection.find({username: req.body.name}).toArray(function (mongoError, results) {
-            console.log(results);
             if (results === undefined || results.length === 0) {
                 collection.save({username: req.body.name, password: req.body.pwd}, function (err, result) {
                     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -85,17 +85,17 @@ app.post('/home', function (req, res) {
     } else {
         db.collection('userInfo', function (err, collection) {
             collection.find({username: req.body.name, password: req.body.pwd}).toArray(function (mongoError, results) {
-                console.log(results);
                 if (results.length === 0) {
                     res.render('index');
                 } else {
                     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
                     res.cookie('name', req.body.name, {maxAge: 900000, httpOnly: true});
                     res.render('home', {name: req.body.name});
+
+                    db.collection('loghistory').save({name: req.body.name, timestamp: (new Date()).toString()});
                 }
             });
         });
-        console.log('after');
     }
 });
 
@@ -110,10 +110,8 @@ app.post('/lan', function (req, res) {
         data += chunk;
     });
     req.on('end', function () {
-        console.log(JSON.parse(data).username);
         var requestData = JSON.parse(data);
         if (requestData.username !== undefined) {
-            console.log("data");
             db.collection('eventData', function (err, collection) {
                 collection.save({
                         username: requestData.username,
@@ -130,7 +128,6 @@ app.post('/lan', function (req, res) {
 });
 
 app.post('/homedata', function (req, res) {
-    console.log(req.cookies.name);
     db.collection('eventData', function (err, collection) {
         collection.find({username: req.cookies.name}).toArray(function (mongoError, results) {
             if (results.length === 0) {
@@ -141,4 +138,31 @@ app.post('/homedata', function (req, res) {
         });
     });
 
+});
+
+app.post('/loghistory', function (req, res) {
+    db.collection('loghistory', function (err, collection) {
+        collection.find({username: req.body.name}).toArray(function (mongoError, results) {
+            if (results.length === 0) {
+                res.send("success");
+            } else {
+                res.send(results);
+            }
+        });
+    });
+});
+
+app.post('/visualization', function (req, res) {
+    var usernames = {};
+    db.collection('eventData', function (err, collection) {
+        collection.find().toArray(function (err, results) {
+            for (var i =0; i < results.length; i++) {
+                if (usernames[results[i].username] === undefined) {
+                    usernames[results[i].username] = [];
+                }
+                usernames[results[i].username].push(results[i].event);
+            }
+            res.send(JSON.stringify(usernames));
+        })
+    })
 });

@@ -7,54 +7,132 @@
             border-collapse: collapse;
             text-align: center;
         }
+        body { background: #fff}
+        * {font-family: Verdana, Arial, sans-serif; }
     </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/javascripts/homescript.js"></script>
 </head>
 <body>
 <h1> Welcome, <%= name %> </h1>
 
-<p>
-    <a href="https://stackoverflow.com/questions/tagged/java?sort=frequent&pageSize=15" target="_blank">Go to StackOverflow</a>
-</p>
 
-<p>
-<table id="eventdata" style="width:700px">
-    <tr>
-        <th>Event</th>
-        <th>Count</th>
-        <th>Time (latest capture)</th>
-    </tr>
-    <tr>
-        <td>Vote activity</td>
-        <td id="voteEventCount"></td>
-        <td id="voteEventTime"></td>
-    </tr>
-    <tr>
-        <td>Question activity</td>
-        <td id="questionEventCount"></td>
-        <td id="questionEventTime"></td>
-    </tr>
-    <tr>
-        <td>Search activity</td>
-        <td id="searchEventCount"></td>
-        <td id="searchEventTime"></td>
-    </tr>
-    <tr>
-        <td>Ask activity</td>
-        <td id="askQuestionEventCount"></td>
-        <td id="askQuestionEventTime"></td>
-    </tr>
-    <tr>
-        <td>Tag activity</td>
-        <td id="tagEventCount"></td>
-        <td id="tagEventTime"></td>
-    </tr>
-</table>
-</p>
+<h3>
+    <a href="https://stackoverflow.com/questions/tagged/java?sort=frequent&pageSize=15" target="_blank">Go to
+        StackOverflow</a>
+</h3>
 
+<div>
+    <div style="display: inline-block;">
+        <table id="eventdata" style="width:650px;">
+            <tr>
+                <th>Event</th>
+                <th>Count</th>
+                <th>Time (latest capture)</th>
+            </tr>
+            <tr>
+                <td>Vote activity</td>
+                <td id="voteEventCount"></td>
+                <td id="voteEventTime"></td>
+            </tr>
+            <tr>
+                <td>Question activity</td>
+                <td id="questionEventCount"></td>
+                <td id="questionEventTime"></td>
+            </tr>
+            <tr>
+                <td>Search activity</td>
+                <td id="searchEventCount"></td>
+                <td id="searchEventTime"></td>
+            </tr>
+            <tr>
+                <td>Ask activity</td>
+                <td id="askQuestionEventCount"></td>
+                <td id="askQuestionEventTime"></td>
+            </tr>
+            <tr>
+                <td>Tag activity</td>
+                <td id="tagEventCount"></td>
+                <td id="tagEventTime"></td>
+            </tr>
+        </table>
+    </div>
+    <div style="display:inline-block;">
+        <table id="logData" style="width:500px">
+        </table>
+    </div>
+</div>
+<br/>
 <form action="logout" method="post">
     <input name="Submit" value="Logout" type="submit">
 </form>
+
+<div>
+    <div id="donut" style="display: inline-block;width:600px;height:250px;"></div>
+    <div id="barchart" style="display: inline-block;width:600px;height:250px;"></div>
+</div>
+<br/>
+<div id="userBehaviourDescription" style="width:100%;margin-top:120px; align: center; text-align: center">
+    <h1> Assignment 1 </h1>
+    <div style="text-align: left; margin-left: 50px">
+        <h3>
+            What users activities have been logged?
+        </h3>
+        For this adaptive application, the following user activities
+        on the domain stackoverflow have been logged: <br/><br/>
+        1) Vote activity - any click event on the up vote or down vote button on a post on stackoverflow web-page. <br/>
+        2) Search Bar Activity - any submit event on the search bar on the page. <br/>
+        3) Tag Activity - any click event on the tags under a question on the page. <br/>
+        4) Question Activity - any event on the selecting a question on the questions list page. <br/>
+        5) Ask Question Activity - any event on the ask question button on the page. <br/>
+
+        <h3>
+            Why did I decide to log these specific activities on the page?
+        </h3>
+        The reason to log each of these activities is as follows: <br/><br/>
+        1) Vote Activity - This activity allows us to know if a user likes or dislikes the question/answer <br/>
+        they are currently viewing. Based on their vote to the answer/question, it's popularity can be generated <br/>
+        and thus help in recommending the same question/answer to them for such purposes. <br/>
+        <br/>
+        2) Search Bar Activity - Based on the search bar activity of a user, we can identify what kind of questions, <br/>
+        topics or technologies they search for and are interested in. Thus, if adapted to, this data can be used to <br/>
+        recommend user such topics and questions on their user home page. <br/>
+        <br/>
+        3) Tag Activity - the tags under a question represent what kind of programming languages, technologies, etc. <br/>
+        are related to the question. If a user clicks on the tag, we can identify what the user is more interested in <br/>
+        looking for within the questions.<br/>
+        <br/>
+        4) Question Activity - the questions on the question list page relate to different problems that a user can <br/>
+        face. Identifying what questions a user refers to can help in adapting to common problems that different users <br/>
+        may face, and thus, recommending the same to other users.<br/>
+        <br/>
+        5). Ask Question Activity - ask question activity can be used to identify is the the user needs to ask a paricular <br/>
+        question to some difficulty they faced or either a knowledge base question related to any technology. A user may <br/>
+        use ask question button when they seem to not be able to find questions related to what they need easily.<br/>
+        <br/>
+
+        <h3>
+            Analysis & Findings
+        </h3>
+        From the above visualizations, the following are the analysis and findings of common user patterns amongst the users of stackoverflow :<br/>
+        <br/>
+        1) When the users browse questions on the Stackoverflow page, they generally make either an upvote or downvote <br/>
+        to the given answers on the questions. This is mostly common when the users find the answers to be either <br/>
+        helpful or to be not so good for the respective question. However, there are outlier users too who may not <br/>
+        have any upvote or downvote activities. <br/>
+        <br/>
+        2) User data indicates that users generally tend to use the Ask Question button very sparsely on stackoverflow. <br/>
+        This may be due to the fact that a lot of users tend to face the same problems while working with technologies and <br/>
+        A question by one user, with a good answer, will be recommended to another user searching the same problem <br/>
+        on stackoverflow.  <br/>
+        <br/>
+        3) The visualizations also indicate that when a user clicks on tags within a particular question, they may not <br/>
+        have specifically found the solution they were looking for, or they want to verify the one provided on this questions. <br/>
+        That is becuase tags link to more questions related to the same topic. There is also a possibilty that the user <br/>
+        may have found the answer adequate but just looked out to verify that the soultion they found has an alternative or not.<br/>
+        
+    </div>
+</div>
 
 </body>
 </html>
